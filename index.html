@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卜卦系統</title>
+    <style>
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .instruction {
+            background-color: #e8f4f8;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .input-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        label, input, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>卜卦系統</h1>
+    <div class="instruction">
+        <h2>卜卦指引</h2>
+        <p>請在心中誠心默念你想要卜卦的問題，靜心片刻，然後再開始抽取數字。</p>
+    </div>
+    <div class="input-container">
+        <label for="upperNumber">上卦數字 (1-64)：</label>
+        <input type="number" id="upperNumber" min="1" max="64" required>
+        <label for="lowerNumber">下卦數字 (1-64)：</label>
+        <input type="number" id="lowerNumber" min="1" max="64" required>
+        <button onclick="castDivination()">卜卦</button>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        const hexagrams = [
+            "乾", "坤", "屯", "蒙", "需", "訟", "師", "比",
+            "小畜", "履", "泰", "否", "同人", "大有", "謙", "豫",
+            "隨", "蠱", "臨", "觀", "噬嗑", "賁", "剝", "復",
+            "無妄", "大畜", "頤", "大過", "坎", "離", "咸", "恆",
+            "遯", "大壯", "晉", "明夷", "家人", "睽", "蹇", "解",
+            "損", "益", "夬", "姤", "萃", "升", "困", "井",
+            "革", "鼎", "震", "艮", "漸", "歸妹", "豐", "旅",
+            "巽", "兌", "渙", "節", "中孚", "小過", "既濟", "未濟"
+        ];
+
+        const meanings = {
+            "乾": "乾卦象徵天，代表強健、剛毅、創造和領導。暗示事業順利，目標明確，充滿動力。",
+            "坤": "坤卦象徵地，代表順從、包容、滋養和支持。暗示應該保持謙遜，順應形勢，培育長遠發展。",
+            "屯": "屯卦象徵初始，代表開端、困難和蓄勢待發。暗示新的開始可能充滿挑戰，需要耐心和毅力。",
+            "蒙": "蒙卦象徵啟蒙，代表學習、成長和尋求指導。暗示應該虛心學習，尋求智者的建議。",
+            // ... 其他卦象的含義 ...
+        };
+
+        function getHexagramCombinationMeaning(upper, lower) {
+            const combinations = {
+                "乾坤": "乾上坤下，象徵天地交泰。這個組合代表極大的和諧與平衡，暗示事業、關係或計劃都處於理想狀態。然而，也提醒要謹防驕傲自滿。",
+                "坤乾": "坤上乾下，象徵地天泰。這個組合表示柔順配合剛健，是一個良好的時機去實現計劃。但也要注意不要過於依賴他人，要發揮自己的主動性。",
+                "屯蒙": "屯上蒙下，象徵初始與成長的結合。這個組合暗示雖然開始可能困難，但通過學習和堅持，終將獲得進步和成長。",
+                // ... 其他組合的解釋 ...
+            };
+
+            return combinations[upper + lower] || `${upper}上${lower}下，這個組合暗示上下互動，需要仔細權衡${upper}的特質如何影響${lower}的基礎。考慮如何在兩者之間取得平衡，以達到最佳的結果。`;
+        }
+
+        function castDivination() {
+            const upperNumber = document.getElementById('upperNumber').value;
+            const lowerNumber = document.getElementById('lowerNumber').value;
+
+            if (upperNumber < 1 || upperNumber > 64 || lowerNumber < 1 || lowerNumber > 64) {
+                alert("請輸入1到64之間的數字");
+                return;
+            }
+
+            const upperHexagram = hexagrams[upperNumber - 1];
+            const lowerHexagram = hexagrams[lowerNumber - 1];
+
+            const combinationMeaning = getHexagramCombinationMeaning(upperHexagram, lowerHexagram);
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h2>卜卦結果</h2>
+                <p><strong>上卦：</strong>${upperHexagram}</p>
+                <p><strong>下卦：</strong>${lowerHexagram}</p>
+                <h3>卦象解釋</h3>
+                <p><strong>${upperHexagram}：</strong>${meanings[upperHexagram] || '暫無解釋'}</p>
+                <p><strong>${lowerHexagram}：</strong>${meanings[lowerHexagram] || '暫無解釋'}</p>
+                <h3>綜合解釋</h3>
+                <p>${combinationMeaning}</p>
+                <h3>建議</h3>
+                <p>根據${upperHexagram}${lowerHexagram}的組合，您可以考慮以下建議：</p>
+                <ul>
+                    <li>關注${upperHexagram}所代表的影響力，如何作用於${lowerHexagram}的基礎</li>
+                    <li>在決策時，平衡${upperHexagram}和${lowerHexagram}的特質</li>
+                    <li>注意當前形勢的變化，靈活調整策略</li>
+                </ul>
+            `;
+        }
+    </script>
+</body>
+</html>
