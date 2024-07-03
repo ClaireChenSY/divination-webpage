@@ -72,7 +72,7 @@
         const basicHexagrams = ["乾", "兌", "離", "震", "巽", "坎", "艮", "坤"];
         
         const hexagramCombinations = [
-            "乾為天", "天澤履", "天火同人", "天雷無妄", "天風姤", "天水訟", "天山遯", "天地否",
+            "乾為天", "天澤履", "天火同人", "天雷無妄", "天風姤", "天水訟", "天山遁", "天地否",
             "澤天夬", "兌為澤", "澤火革", "澤雷隨", "澤風大過", "澤水困", "澤山咸", "澤地萃",
             "火天大有", "火澤睽", "離為火", "火雷噬嗑", "火風鼎", "火水未濟", "火山旅", "火地晉",
             "雷天大壯", "雷澤歸妹", "雷火豐", "震為雷", "雷風恆", "雷水解", "雷山小過", "雷地豫",
@@ -83,20 +83,23 @@
         ];
 
         function getHexagram(number) {
-            return basicHexagrams[number % 8];
+            return basicHexagrams[(number - 1) % 8];
         }
 
         function castDivination() {
             const upperNumber = parseInt(document.getElementById('upperNumber').value);
             const lowerNumber = parseInt(document.getElementById('lowerNumber').value);
 
-            if (isNaN(upperNumber) || isNaN(lowerNumber) || upperNumber < 0 || upperNumber > 999 || lowerNumber < 0 || lowerNumber > 999) {
+            if (isNaN(upperNumber) || isNaN(lowerNumber) || 
+                upperNumber < 0 || upperNumber > 999 || 
+                lowerNumber < 0 || lowerNumber > 999) {
                 alert("請輸入0到999之間的數字");
                 return;
             }
 
             const upperHexagram = getHexagram(upperNumber);
             const lowerHexagram = getHexagram(lowerNumber);
+
             const combinationIndex = basicHexagrams.indexOf(upperHexagram) * 8 + basicHexagrams.indexOf(lowerHexagram);
             const combination = hexagramCombinations[combinationIndex];
 
@@ -107,7 +110,7 @@
                 <p><strong>下卦：</strong>${lowerHexagram}（數字：${lowerNumber}）</p>
                 <h3>卦象組合</h3>
                 <p><strong>${combination}</strong></p>
-                <p>這個卦象代表...（這裡可以添加具體的卦象解釋）</p>
+                <p>這個卦象暗示著...（這裡可以添加更詳細的解釋）</p>
             `;
         }
     </script>
