@@ -70,29 +70,102 @@
 
     <script>
         const basicHexagrams = ["乾", "兌", "離", "震", "巽", "坎", "艮", "坤"];
-        
-        const hexagramCombinations = [
-            "乾為天", "天澤履", "天火同人", "天雷無妄", "天風姤", "天水訟", "天山遁", "天地否",
-            "澤天夬", "兌為澤", "澤火革", "澤雷隨", "澤風大過", "澤水困", "澤山咸", "澤地萃",
-            "火天大有", "火澤睽", "離為火", "火雷噬嗑", "火風鼎", "火水未濟", "火山旅", "火地晉",
-            "雷天大壯", "雷澤歸妹", "雷火豐", "震為雷", "雷風恆", "雷水解", "雷山小過", "雷地豫",
-            "風天小畜", "風澤中孚", "風火家人", "風雷益", "巽為風", "風水渙", "風山漸", "風地觀",
-            "水天需", "水澤節", "水火既濟", "水雷屯", "水風井", "坎為水", "水山蹇", "水地比",
-            "山天大畜", "山澤損", "山火賁", "山雷頤", "山風蠱", "山水蒙", "艮為山", "山地剝",
-            "地天泰", "地澤臨", "地火明夷", "地雷復", "地風升", "地水師", "地山謙", "坤為地"
-        ];
 
         function getHexagram(number) {
             return basicHexagrams[(number - 1) % 8];
         }
 
+        const hexagramCombinations = {
+            "乾乾": "乾為天",
+            "兌兌": "兌為澤",
+            "離離": "離為火",
+            "震震": "震為雷",
+            "巽巽": "巽為風",
+            "坎坎": "坎為水",
+            "艮艮": "艮為山",
+            "坤坤": "坤為地",
+            "乾兌": "天澤履",
+            "乾離": "天火同人",
+            "乾震": "天雷無妄",
+            "乾巽": "天風姤",
+            "乾坎": "天水訟",
+            "乾艮": "天山遯",
+            "乾坤": "天地否",
+            "兌乾": "澤天夬",
+            "兌離": "澤火革",
+            "兌震": "澤雷隨",
+            "兌巽": "澤風大過",
+            "兌坎": "澤水困",
+            "兌艮": "澤山咸",
+            "兌坤": "澤地萃",
+            "離乾": "火天大有",
+            "離兌": "火澤睽",
+            "離震": "火雷噬嗑",
+            "離巽": "火風鼎",
+            "離坎": "火水未濟",
+            "離艮": "火山旅",
+            "離坤": "火地晉",
+            "震乾": "雷天大壯",
+            "震兌": "雷澤歸妹",
+            "震離": "雷火豐",
+            "震巽": "雷風恆",
+            "震坎": "雷水解",
+            "震艮": "雷山小過",
+            "震坤": "雷地豫",
+            "巽乾": "風天小畜",
+            "巽兌": "風澤中孚",
+            "巽離": "風火家人",
+            "巽震": "風雷益",
+            "巽坎": "風水渙",
+            "巽艮": "風山漸",
+            "巽坤": "風地觀",
+            "坎乾": "水天需",
+            "坎兌": "水澤節",
+            "坎離": "水火既濟",
+            "坎震": "水雷屯",
+            "坎巽": "水風井",
+            "坎艮": "水山蹇",
+            "坎坤": "水地比",
+            "艮乾": "山天大畜",
+            "艮兌": "山澤損",
+            "艮離": "山火賁",
+            "艮震": "山雷頤",
+            "艮巽": "山風蠱",
+            "艮坎": "山水蒙",
+            "艮坤": "山地剝",
+            "坤乾": "地天泰",
+            "坤兌": "地澤臨",
+            "坤離": "地火明夷",
+            "坤震": "地雷復",
+            "坤巽": "地風升",
+            "坤坎": "地水師",
+            "坤艮": "地山謙"
+        };
+
+        const hexagramMeanings = {
+            "乾為天": "乾為天代表純粹的陽剛之力，象徵創造、領導和持續不斷的努力。這個卦象提醒我們要堅持不懈，勇往直前，同時也要警惕可能的驕傲自滿。",
+            "兌為澤": "兌為澤代表喜悅和滿足，象徵開放、交流和愉快的社交。這個卦象鼓勵我們保持樂觀積極的態度，同時也要注意不要過於輕浮。",
+            "離為火": "離為火代表光明和智慧，象徵洞察力和理性思考。這個卦象提醒我們要明辨是非，保持清晰的判斷，但也要警惕可能的固執己見。",
+            "震為雷": "震為雷代表震動和行動，象徵新的開始和突破。這個卦象鼼勵我們勇於改變，迎接新的機遇，但也要小心不要魯莽行事。",
+            "巽為風": "巽為風代表柔和和順從，象徵謙遜和適應性。這個卦象提醒我們要靈活應變，順應形勢，但也不要失去自我。",
+            "坎為水": "坎為水代表危險和機遇並存，象徵深刻的洞察力和潛在的風險。這個卦象警示我們要謹慎行事，同時也鼓勵我們勇敢面對挑戰。",
+            "艮為山": "艮為山代表穩重和停止，象徵內省和堅定。這個卦象提醒我們要懂得適時停下腳步，反思和調整，但也不要過於保守而錯失機會。",
+            "坤為地": "坤為地代表純粹的陰柔之力，象徵包容、滋養和順應。這個卦象鼓勵我們保持謙遜和耐心，培育長遠的發展，但也要注意不要過於被動。",
+            "天澤履": "天澤履象徵謹慎行事，提醒我們在行動時要注意分寸，保持優雅和禮節，同時也要有堅定的內心。",
+            "天火同人": "天火同人象徵人與人之間的和諧關係，提醒我們要與他人建立良好的聯繫，同時保持自己的獨立性。",
+            "天雷無妄": "天雷無妄象徵自然而然的行動，提醒我們要順應自然規律，不要有不切實際的妄想，保持純真和正直。",
+            "天風姤": "天風姤象徵相遇和交流，提醒我們要把握機會與他人建立聯繫，但也要警惕可能的欺騙和背叛。",
+            "天水訟": "天水訟象徵爭執和衝突，提醒我們要謹慎處理人際關係，避免不必要的爭端，尋求和平解決的方法。",
+            "天山遯": "天山遯象徵退避和保全，提醒我們有時候適當的退讓和隱藏可以避免不必要的損失，為未來的發展蓄積力量。",
+            "天地否": "天地否象徵阻塞和不通，提醒我們當前可能面臨困難和阻礙，需要耐心等待時機，同時也要反思自己是否有需要改進的地方。",
+            // ... 其他卦象的解釋 ...
+        };
+
         function castDivination() {
             const upperNumber = parseInt(document.getElementById('upperNumber').value);
             const lowerNumber = parseInt(document.getElementById('lowerNumber').value);
 
-            if (isNaN(upperNumber) || isNaN(lowerNumber) || 
-                upperNumber < 0 || upperNumber > 999 || 
-                lowerNumber < 0 || lowerNumber > 999) {
+            if (isNaN(upperNumber) || isNaN(lowerNumber) || upperNumber < 0 || upperNumber > 999 || lowerNumber < 0 || lowerNumber > 999) {
                 alert("請輸入0到999之間的數字");
                 return;
             }
@@ -100,17 +173,26 @@
             const upperHexagram = getHexagram(upperNumber);
             const lowerHexagram = getHexagram(lowerNumber);
 
-            const combinationIndex = basicHexagrams.indexOf(upperHexagram) * 8 + basicHexagrams.indexOf(lowerHexagram);
-            const combination = hexagramCombinations[combinationIndex];
+            const combinationKey = upperHexagram + lowerHexagram;
+            const combinationName = hexagramCombinations[combinationKey] || "未知組合";
+            const combinationMeaning = hexagramMeanings[combinationName] || "此卦象組合的解釋暫缺，請諮詢專業人士。";
 
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
                 <h2>卜卦結果</h2>
-                <p><strong>上卦：</strong>${upperHexagram}（數字：${upperNumber}）</p>
-                <p><strong>下卦：</strong>${lowerHexagram}（數字：${lowerNumber}）</p>
+                <p><strong>上卦（第${upperNumber}數）：</strong>${upperHexagram}</p>
+                <p><strong>下卦（第${lowerNumber}數）：</strong>${lowerHexagram}</p>
                 <h3>卦象組合</h3>
-                <p><strong>${combination}</strong></p>
-                <p>這個卦象暗示著...（這裡可以添加更詳細的解釋）</p>
+                <p><strong>${combinationName}</strong></p>
+                <h3>卦象解釋</h3>
+                <p>${combinationMeaning}</p>
+                <h3>建議</h3>
+                <p>根據${combinationName}的卦象，您可以考慮以下建議：</p>
+                <ul>
+                    <li>仔細思考${upperHexagram}和${lowerHexagram}的特質如何在您的處境中體現</li>
+                    <li>根據卦象的指引，調整您的行動計劃和態度</li>
+                    <li>保持開放和靈活的心態，隨時準備應對變化</li>
+                </ul>
             `;
         }
     </script>
